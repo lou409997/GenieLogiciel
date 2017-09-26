@@ -20,7 +20,7 @@ public class Panier {
          max = 10;
      }
      
-     public Panier(int m, int nb)
+     public Panier(int m)
      {
          a = new ArrayList();
          max = m;
@@ -36,20 +36,21 @@ public class Panier {
      
      public boolean estVide()
      {
-        if(a.size()==max)
-            return false;
-        else
+        if(a.size()==0)
             return true;
+        else
+            return false;
      }
      
      @Override
      public String toString()
      {
+         String tot = "";
          for(int i=0; i<a.size(); i++)
          {
-             return "Propriete de l'orange " + i + " : " + a.get(i);
+             tot= tot + "Propriete de l'orange : " + a.get(i)+"\n";
          }
-         return null;
+         return "Panier : \n" + tot;
      }
      
      @Override
@@ -63,7 +64,7 @@ public class Panier {
              if(a.get(i) != p.a.get(i))
                  return false;
          }
-         return equals(p);
+         return true;
      }
     
      
@@ -98,5 +99,15 @@ public class Panier {
              total = total + o.getPrix();
          }
          return total;
+     }
+     
+     public void boycotteOrigine(String pays)
+     {
+         for(int i=0; i<a.size(); i++)
+         {
+             Orange o = (Orange) a.get(i);
+             if(o.getOrigine()==pays)
+                 retire(o);
+         }
      }
 }

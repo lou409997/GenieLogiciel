@@ -48,6 +48,6 @@ public class Orange {
         Orange o = (Orange)other;
         if(o.getPrix()!=prix || o.getOrigine()!=origine)
             return false;
-        return equals(o);
+        return true;
         }
 }
