@@ -3,16 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+///croudet80 sur github
+
+
 package fr.ufrsciencestech.panier;
 
 import java.util.ArrayList;
+import java.util.Observable;
 /**
  *
  * @author lf409997
  */
-public class Panier {
+public class Panier extends Observable{
      private ArrayList a;
      private int max;
+     
+     public ArrayList getFruits()
+     {
+         return a;
+     }
      
      public Panier()
      {
@@ -59,6 +69,7 @@ public class Panier {
          if(other == null)
              return false;
          Panier p = (Panier)other;
+         //tester que les paniers sont de memes tailles
          for(int i=0; i<a.size(); i++)
          {
              if(a.get(i) != p.a.get(i))
@@ -67,26 +78,44 @@ public class Panier {
          return true;
      }
     
-     
-     public void ajoute(Orange o)
+     //a modifier pour ne plus avoir de paramètre
+     public void ajoute(Orange o) throws PanierPleinException
      {
          if(estPlein()==false)
-            a.add(o);
+         {
+             /*Orange o;
+             if(estVide()==false)
+                 o = a.get(a.size()-1);
+             else
+                 o = new Orange();*/
+             a.add(o);
+             setChanged();
+             notifyObservers(this);
+             
+         }
          else
-             System.out.println("Le panier est plein.");
-                     
+         {
+             throw new PanierPleinException();
+         }
      }
      
-     public void retire(Orange o)
+     //a modifier pour ne plus avoir de paramètre
+     public void retire(Orange o) throws PanierVideException
      {
          if(estVide()==false)
+         {
             for(int i=0; i<a.size(); i++)
             {
                 if(a.get(i)==o)
                     a.remove(i);
             }
+            setChanged(); //previent que le modele a changer
+            notifyObservers(this); //donne les nouvelles valeurs et declenche les methodes update
+         }
          else
-             System.out.println("Le panier est vide.");
+         {
+             throw new PanierVideException();
+         }
      }
      
      public double getPrix()
@@ -107,7 +136,8 @@ public class Panier {
          {
              Orange o = (Orange) a.get(i);
              if(o.getOrigine()==pays)
-                 retire(o);
+                 try{retire(o);}
+                 catch(PanierVideException e){}
          }
      }
 }
