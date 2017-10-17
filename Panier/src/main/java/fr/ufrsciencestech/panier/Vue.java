@@ -5,6 +5,11 @@
  */
 package fr.ufrsciencestech.panier;
 
+///pour mettre à jour sur gitub faire un 
+    //git Add
+    //git Commit
+    //git remote fetch from upstream
+    //git remote push from upstream
 import java.util.Observable;
 
 /**
